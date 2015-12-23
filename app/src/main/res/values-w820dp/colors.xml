@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="background">#F5F5F5</color>
+    <color name="transprent">#00000000</color>
+    <color name="theme">#0000ff</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="red">#FF0000</color>
+    <color name="red1">#FF5505</color>
+    <color name="blue">#FF375BF1</color>
+    <color name="blue_light">#aa375BF1</color>
+    <color name="yellow">#FFF7D23E</color>
+    <color name="green">#FF34A350</color>
+    <color name="titlebg">#06B1FF</color>
+    <color name="green1">#4acca6</color>
+    <color name="gray_text">#9E9E9E</color>
+    <color name="color_profile_bg">#f5f5f5</color>
+    <color name="color_title_bar">#323232</color>
+    <!-- item点击效果颜色 -->
+    <color name="item_pressed">#cccccc</color>
+    <!-- item常态下颜色 -->
+    <color name="item_normal">#00000000</color>
+    <color name="cj_bg">#F0F0F0</color>
+    <color name="color_title_bar_black">#323232</color>
+    <color name="color_title_bar_gray">#d0d0d0</color>
+    <color name="gray_f0">#F0F0F0</color>
+    <color name="gray_a0">#a0a0a0</color>
+    <color name="gray_d0">#d0d0d0</color>
+    <color name="gray_dc">#dcdcdc</color>
+    <color name="gray_80">#808080</color>
+    <color name="gray_b0">#b0b0b0</color>
+    <color name="gray_c0">#c0c0c0</color>
+    <color name="gray_e0">#e0e0e0</color>
+    <color name="light_gray">#f0f0f0</color>
+    <color name="buttom_selected">#ed5056</color>
+    <color name="buttom_normal">#999999</color>
+    <color name="redplan">#f5f5f5</color>
+    <color name="redplanlight">#BF3F3D</color>
+    <color name="general_list_back_color">#ffffffff</color>
+    <color name="main_menu_bg">#383B40</color>
+ 
+    <!-- <drawable name="write">#ffffff</drawable>  
+    <drawable name="blue">#0079f8</drawable> -->
+    
+<!--     旅游推荐 -->
+    <color name="tvtrword_color">#08b1ff</color>   
+    <color name="tvtrword1_color">#aaaaaa</color> 
+    <color name="ranking_text">#666666</color>       
+    <color name="xsw_color">#333333</color>
+    <color name="title">#ffffff</color>
+    <color name="at_textcolor">#999999</color>  
+    <color name="at_red">#ff0000</color>  
+</resources>
