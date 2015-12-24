@@ -106,7 +106,6 @@ public class DownloadAdapter extends AbstractBaseAdapter<DownloadInfo> {
 
                     @Override
                     public void onSuccess(MessageInfo info) {
-//                        Log.d("Adapter", "onSuccess:" + downloadId + "");
                         progressBar.setVisibility(View.INVISIBLE);
                         size_tv.setVisibility(View.INVISIBLE);
                         status_tv.setText("下载成功");

@@ -33,7 +33,9 @@ public class DownListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frg_downloadlist, null);
         listView = (ListView) view.findViewById(R.id.download_list);
-        initList();
+        if (list.size() == 0) {
+            initList();
+        }
         adapter = new DownloadAdapter(getActivity());
         adapter.addAll(list);
         listView.setAdapter(adapter);
