@@ -1,7 +1,8 @@
-package com.ajaxshang.demo.utils;
+package com.ajaxshang.demo.entity;
 
 /**
  * Created by Administrator on 2015/12/19.
+ * 下载类
  */
 public class DownloadInfo {
 

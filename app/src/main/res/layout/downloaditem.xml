@@ -19,7 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/name_tv"
         android:layout_toRightOf="@+id/name_tv"
-        android:text="（已暂停）"
         android:textSize="10dp" />
 
     <TextView
@@ -28,7 +27,6 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/name_tv"
         android:layout_toLeftOf="@+id/down_btn"
-        android:text="54.0M"
         android:textSize="10dp" />
 
     <Button
@@ -37,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignBaseline="@+id/name_tv"
-        android:text="down" />
+        android:text="0.00M/0.00M" />
 
     <ProgressBar
         android:id="@+id/down_progress"

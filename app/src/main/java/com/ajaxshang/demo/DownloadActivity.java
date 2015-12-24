@@ -6,7 +6,7 @@ import android.widget.ListView;
 
 import com.ajaxshang.demo.adadpter.DownloadAdapter;
 import com.ajaxshang.demo.utils.Download;
-import com.ajaxshang.demo.utils.DownloadInfo;
+import com.ajaxshang.demo.entity.DownloadInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +33,7 @@ public class DownloadActivity extends Activity {
     }
 
     private void initList() {
-        DownloadInfo info = new DownloadInfo();
-        info.setName("酷狗音乐");
-        info.setSavePath("AjaxShang");
-        info.setDownloadPath("http://soft.duote.com.cn/kugou_8.0.19.18186.exe");
-        list.add(info);
+
 
         DownloadInfo info1 = new DownloadInfo();
         info1.setName("豌豆荚");
@@ -62,6 +58,12 @@ public class DownloadActivity extends Activity {
         info4.setSavePath("AjaxShang");
         info4.setDownloadPath("http://soft.duote.com.cn/baidumusic.exe");
         list.add(info4);
+
+        DownloadInfo info5 = new DownloadInfo();
+        info5.setName("酷狗音乐");
+        info5.setSavePath("AjaxShang");
+        info5.setDownloadPath("http://soft.duote.com.cn/kugou_8.0.19.18186.exe");
+        list.add(info5);
 
 //
     }

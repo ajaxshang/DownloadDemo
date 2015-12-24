@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import com.ajaxshang.demo.entity.MessageInfo;
 import com.ajaxshang.demo.utils.Download;
 
 public class MainActivity extends Activity {
@@ -56,8 +57,8 @@ public class MainActivity extends Activity {
                 download.down(path, DOWNLOAD_FOLDER_NAME, new Download.DownloadCallBack() {
 
                     @Override
-                    public void onSuccess(long downloadId) {
-                        Log.d(TAG, "onSuccess:" + downloadId + "");
+                    public void onSuccess(MessageInfo info) {
+//                        Log.d(TAG, "onSuccess:" + downloadId + "");
                     }
 
                     @Override

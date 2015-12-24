@@ -11,6 +11,9 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 
+import com.ajaxshang.demo.entity.DownloadInfo;
+import com.ajaxshang.demo.entity.MessageInfo;
+
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.concurrent.Executors;
@@ -44,8 +47,26 @@ public class Download {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            DownloadCallBack callBack = (DownloadCallBack) msg.obj;
-            callBack.onProgress(msg.what, msg.arg1, msg.arg2);
+//            DownloadCallBack callBack = (DownloadCallBack) msg.obj;
+//            if (msg.what < msg.arg1) {
+//                callBack.onProgress(msg.what, msg.arg1, msg.arg2);
+//            }
+//            if (msg.what == msg.arg1) {
+//                callBack.onSuccess();
+//            }
+            switch (msg.what) {
+                case 0:
+                    MessageInfo info = (MessageInfo) msg.obj;
+                    DownloadCallBack callBack = info.getCallBack();
+                    if (info.getCurrent() < info.getTotal()) {
+                        callBack.onProgress(info.getCurrent(), info.getTotal(), info.getStatus());
+                    }
+                    if (info.getCurrent() == info.getTotal()) {
+//                        callBack.onProgress(info.getCurrent(),info.getTotal(),info.getStatus());
+                        callBack.onSuccess(info);
+                    }
+                    break;
+            }
 
 
         }
@@ -368,7 +389,7 @@ public class Download {
     public interface DownloadCallBack {
         void onStart(long downloadId);
 
-        void onSuccess(long downloadId);
+        void onSuccess(MessageInfo info);//long downloadId
 
         void onFailure(int errorCode);
 
@@ -391,15 +412,23 @@ public class Download {
             Log.d("Thread", threadId + "");
             while (true) {
                 int[] bytesAndStatus = getBytesAndStatus(id);
-                handler.sendMessage(handler.obtainMessage(bytesAndStatus[0], bytesAndStatus[1], bytesAndStatus[2], callBack));
-                if (bytesAndStatus[2] == DownloadManager.STATUS_SUCCESSFUL) {
-                    callBack.onSuccess(id);
-                    scheduledExecutorService.shutdown();
+
+                MessageInfo messageInfo = new MessageInfo();
+                messageInfo.setCurrent(bytesAndStatus[0]);
+                messageInfo.setTotal(bytesAndStatus[1]);
+                messageInfo.setStatus(bytesAndStatus[2]);
+                messageInfo.setDownloadid(id);
+                messageInfo.setCallBack(callBack);
+
+                handler.sendMessage(handler.obtainMessage(0, messageInfo));
+
+//                handler.sendMessage(handler.obtainMessage(bytesAndStatus[0], bytesAndStatus[1], bytesAndStatus[2], callBack));
+                if (bytesAndStatus[0] == bytesAndStatus[1]) {
                     break;
                 }
                 if (bytesAndStatus[2] == DownloadManager.STATUS_FAILED) {
                     callBack.onFailure(getErrorCode(id));
-                    scheduledExecutorService.shutdownNow();
+//                    scheduledExecutorService.shutdownNow();
                     break;
                 }
             }
