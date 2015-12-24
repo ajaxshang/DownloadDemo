@@ -25,7 +25,7 @@ public class Download {
     public static final String METHOD_NAME_PAUSE_DOWNLOAD = "pauseDownload";
     public static final String METHOD_NAME_RESUME_DOWNLOAD = "resumeDownload";
 
-    public static ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(3);
+    public static ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(5);
     static Context context;
     static DownloadManager manager;
 
@@ -198,7 +198,14 @@ public class Download {
         return status;
     }
 
-    // 下载方法
+    /**
+     * 下载方法
+     *
+     * @param path     下载路径
+     * @param savePath 保存路径
+     * @param callBack 回调函数
+     */
+
     public void down(String path, String savePath, DownloadCallBack callBack) {
 
         DOWNLOAD_FOLDER_NAME = savePath;
@@ -226,13 +233,12 @@ public class Download {
 
     }
 
-    private String getFileName(String downloadPath) {
-        String[] strs = downloadPath.split(File.separator);
-        if (strs.length != 0) {
-            return strs[strs.length - 1];
-        }
-        return "";
-    }
+    /**
+     * 下载方法
+     *
+     * @param info     下载类
+     * @param callBack 回调
+     */
 
     public void down(DownloadInfo info, final DownloadCallBack callBack) {
 
@@ -285,10 +291,6 @@ public class Download {
 
             downloadId = manager.enqueue(down);
             callBack.onStart(downloadId);
-//            downloadObserver = new DownloadChangeObserver(downloadId, callBack);
-//            completeReceiver = new CompleteReceiver(downloadId, callBack);
-//            context.getContentResolver().registerContentObserver(CONTENT_URI, true, downloadObserver);
-//            context.registerReceiver(completeReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
 
             //FIXME 增加线程池，维护线程
             DownloadObRunnable runnable = new DownloadObRunnable(downloadId, callBack);
@@ -296,6 +298,14 @@ public class Download {
 //            new Thread(runnable).start();
 
         }
+    }
+
+    private String getFileName(String downloadPath) {
+        String[] strs = downloadPath.split(File.separator);
+        if (strs.length != 0) {
+            return strs[strs.length - 1];
+        }
+        return "";
     }
 
     /**

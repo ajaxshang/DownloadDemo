@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ajaxshang.demo.R;
@@ -14,12 +15,10 @@ import com.ajaxshang.demo.utils.DownloadInfo;
 public class DownloadAdapter extends AbstractBaseAdapter<DownloadInfo> {
 
     private Context context;
-    private Download download;
 
-    public DownloadAdapter(Context context, Download download) {
+    public DownloadAdapter(Context context) {
         super(context);
         this.context = context;
-        this.download = download;
     }
 
     @Override
@@ -29,12 +28,13 @@ public class DownloadAdapter extends AbstractBaseAdapter<DownloadInfo> {
 
     @Override
     public View getItemView(final int position, View convertView) {
-        TextView name = ViewHolder.get(convertView, R.id.name_tv);
-        TextView status = ViewHolder.get(convertView, R.id.status_tv);
-        TextView size = ViewHolder.get(convertView, R.id.size_tv);
+        TextView name_tv = ViewHolder.get(convertView, R.id.name_tv);
+        final TextView status_tv = ViewHolder.get(convertView, R.id.status_tv);
+        final TextView size = ViewHolder.get(convertView, R.id.size_tv);
         final Button down = ViewHolder.get(convertView, R.id.down_btn);
+        final ProgressBar progressBar = ViewHolder.get(convertView, R.id.down_progress);
         final Download download = new Download(context);
-        name.setText(mListData.get(position).getName());
+        name_tv.setText(mListData.get(position).getName());
 
         down.setOnClickListener(new OnClickListener() {
 
@@ -45,6 +45,7 @@ public class DownloadAdapter extends AbstractBaseAdapter<DownloadInfo> {
                     @Override
                     public void onSuccess(long downloadId) {
                         Log.d("Adapter", "onSuccess:" + downloadId + "");
+                        status_tv.setText("下载成功");
 //                        download.close();
                     }
 
@@ -57,6 +58,9 @@ public class DownloadAdapter extends AbstractBaseAdapter<DownloadInfo> {
                     @Override
                     public void onProgress(long current, long total, long status) {
                         Log.d("Adapter", "onProgress " + position + ":" + current + "/" + total + " status:" + status);
+                        int i = (int) (current / total);
+                        status_tv.setText("正在下载");
+//                        progressBar.setProgress(i);
                     }
 
                     @Override

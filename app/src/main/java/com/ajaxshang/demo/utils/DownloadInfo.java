@@ -46,7 +46,7 @@ public class DownloadInfo {
     }
 
     public void setDownloadPath(String downloadPath) {
-        this.downloadPath = downloadPath;
+        this.downloadPath = downloadPath.trim();
     }
 
     public String getSavePath() {

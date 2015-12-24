@@ -25,7 +25,7 @@ public class DownloadActivity extends Activity {
         setContentView(R.layout.activity_cityattractions);
         listview = (ListView) this.findViewById(R.id.listview);
         download = new Download(this);
-        adapter = new DownloadAdapter(this, download);
+        adapter = new DownloadAdapter(this);
         initList();
         adapter.addAll(list);
         listview.setAdapter(adapter);
@@ -33,11 +33,11 @@ public class DownloadActivity extends Activity {
     }
 
     private void initList() {
-        // DownloadInfo info = new DownloadInfo();
-        // info.setName("NTCCBRReader.zip");
-        // info.setSavePath("AjaxShang");
-        // info.setDownloadPath("http://106.2.192.23:9999/down7.pc6.com/qd3/NTCCBRReader.zip");
-        // list.add(info);
+        DownloadInfo info = new DownloadInfo();
+        info.setName("酷狗音乐");
+        info.setSavePath("AjaxShang");
+        info.setDownloadPath("http://soft.duote.com.cn/kugou_8.0.19.18186.exe");
+        list.add(info);
 
         DownloadInfo info1 = new DownloadInfo();
         info1.setName("豌豆荚");
@@ -50,6 +50,20 @@ public class DownloadActivity extends Activity {
         info2.setSavePath("AjaxShang");
         info2.setDownloadPath("http://123.57.218.63:9008/download/PIE/AppAndroid/PiePlus.apk");
         list.add(info2);
+
+        DownloadInfo info3 = new DownloadInfo();
+        info3.setName("酷我音乐");
+        info3.setSavePath("AjaxShang");
+        info3.setDownloadPath("http://soft.duote.com.cn/kwmusic.exe");
+        list.add(info3);
+
+        DownloadInfo info4 = new DownloadInfo();
+        info4.setName("百度音乐");
+        info4.setSavePath("AjaxShang");
+        info4.setDownloadPath("http://soft.duote.com.cn/baidumusic.exe");
+        list.add(info4);
+
+//
     }
 
     @Override
