@@ -96,6 +96,7 @@ public class DownloadAdapter extends AbstractBaseAdapter<DownloadInfo> {
                         down.setText(getAppSize(current) + "/" + getAppSize(total));
                         progressBar.setMax((int) total);
                         progressBar.setProgress((int) current);
+                        mListData.get(position).setStatus((int) status);
                     }
 
                     @Override

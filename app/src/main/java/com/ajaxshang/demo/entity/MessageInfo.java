@@ -4,6 +4,7 @@ import com.ajaxshang.demo.utils.Download;
 
 /**
  * Created by Administrator on 2015/12/24.
+ * 下载成功回调类
  */
 public class MessageInfo {
     private Download.DownloadCallBack callBack;
