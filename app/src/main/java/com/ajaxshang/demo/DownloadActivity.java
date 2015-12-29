@@ -15,6 +15,7 @@ import com.ajaxshang.demo.utils.Download;
 
 import java.util.ArrayList;
 import java.util.List;
+//
 
 public class DownloadActivity extends Activity implements UpdateCallback {
 
