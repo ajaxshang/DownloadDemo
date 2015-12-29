@@ -1,7 +1,6 @@
 package com.ajaxshang.demo.adadpter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ajaxshang.demo.R;
+import com.ajaxshang.demo.callback.UpdateCallback;
 import com.ajaxshang.demo.entity.DownloadInfo;
 import com.ajaxshang.demo.entity.MessageInfo;
 import com.ajaxshang.demo.utils.Download;
@@ -21,6 +21,8 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2015/12/24.
+ * <p/>
+ * 解决思路，去掉down回调中的onProgress方法，在getView中通过查询downloadinfo的状态来获取下载状态进行更新数据
  */
 public class DownloadAdapterTest extends BaseAdapter {
 
@@ -29,6 +31,7 @@ public class DownloadAdapterTest extends BaseAdapter {
     static final DecimalFormat DOUBLE_DECIMAL_FORMAT = new DecimalFormat("0.##");
     List<DownloadInfo> infos = new ArrayList<>();
     Context context;
+    private UpdateCallback callback;
 
     public DownloadAdapterTest(List<DownloadInfo> infos, Context context) {
         this.infos = infos;
@@ -61,6 +64,14 @@ public class DownloadAdapterTest extends BaseAdapter {
         }
     }
 
+    public UpdateCallback getCallback() {
+        return callback;
+    }
+
+    public void setCallback(UpdateCallback callback) {
+        this.callback = callback;
+    }
+
     @Override
     public int getCount() {
         return infos.size();
@@ -77,9 +88,8 @@ public class DownloadAdapterTest extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        ViewHolder viewHolder = null;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        ViewHolder viewHolder;
         if (null == convertView) {
             viewHolder = new ViewHolder();
             LayoutInflater mInflater = LayoutInflater.from(context);
@@ -89,66 +99,71 @@ public class DownloadAdapterTest extends BaseAdapter {
             viewHolder.size_tv = (TextView) convertView.findViewById(R.id.size_tv);
             viewHolder.status_tv = (TextView) convertView.findViewById(R.id.status_tv);
             viewHolder.progressBar = (ProgressBar) convertView.findViewById(R.id.down_progress);
-
+            convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        final DownloadInfo info = infos.get(position);
-        final Download download = new Download(context);
-        if (info != null) {
-            viewHolder.name_tv.setText(info.getName() + position);
-
-            final ViewHolder finalViewHolder = viewHolder;
-            convertView.setTag(finalViewHolder);
-            viewHolder.down_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    download.down(info, new Download.DownloadCallBack() {
-                        @Override
-                        public void onStart(long downloadId) {
-                            Log.d("Adapter", "onStart:" + downloadId + "");
-                            finalViewHolder.progressBar.setVisibility(View.VISIBLE);
-                            finalViewHolder.status_tv.setVisibility(View.VISIBLE);
-                            finalViewHolder.size_tv.setVisibility(View.VISIBLE);
-
-                        }
-
-                        @Override
-                        public void onProgress(long current, long total, long status) {
-//                            Log.d("Adapter", "onProgress " + position + ":" + getAppSize(current) + "/" + getAppSize(total));
-                            finalViewHolder.size_tv.setText("正在下载");
-                            finalViewHolder.down_btn.setText(getAppSize(current) + "/" + getAppSize(total));
-                            finalViewHolder.progressBar.setMax((int) total);
-                            finalViewHolder.progressBar.setProgress((int) current);
-//                            mListData.get(position).setStatus((int) status);
-                        }
-
-                        @Override
-                        public void onFailure(int errorCode) {
-
-                        }
-
-                        @Override
-                        public void onSuccess(MessageInfo info) {
-                            finalViewHolder.progressBar.setVisibility(View.INVISIBLE);
-                            finalViewHolder.size_tv.setVisibility(View.INVISIBLE);
-                            finalViewHolder.status_tv.setText("下载成功");
-                            finalViewHolder.down_btn.setText("安装");
-                        }
-
-                    });
-                }
-            });
-        }
-
+        setData(viewHolder, position);
         return convertView;
+
     }
 
-    static class ViewHolder {
-        TextView name_tv;
-        TextView size_tv;
-        TextView status_tv;
-        Button down_btn;
-        ProgressBar progressBar;
+    private void setData(ViewHolder holder, final int position) {
+        holder.name_tv.setText(infos.get(position).getName() + "  " + position);
+        holder.down_btn.setText("下载");
+        holder.progressBar.setMax(0);
+        holder.progressBar.setVisibility(View.VISIBLE);
+        holder.down_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Download download = new Download(context);
+                download.down(infos.get(position), new Download.DownloadCallBack() {
+                    @Override
+                    public void onStart(long downloadId) {
+//                        holder.progressBar.setVisibility(View.VISIBLE);
+//                        holder.status_tv.setText("正在下载");
+//                        holder.status_tv.setVisibility(View.VISIBLE);
+//                        infos.get(itemIndex).setStatus(DownloadManager.STATUS_RUNNING);
+//                        handler.sendMessage(handler.obtainMessage(0, (int) downloadId, position));
+                        callback.startProgress(downloadId, position);
+                    }
+
+                    @Override
+                    public void onSuccess(MessageInfo info) {
+//                        holder.status_tv.setText("下载成功");
+//                        holder.progressBar.setVisibility(View.INVISIBLE);
+//                        holder.down_btn.setText("安装");
+//                        infos.get(itemIndex).setStatus(DownloadManager.STATUS_SUCCESSFUL);
+                    }
+
+                    @Override
+                    public void onFailure(int errorCode) {
+
+                    }
+
+                    @Override
+                    public void onProgress(long id, long current, long total, long status) {
+//                        holder.progressBar.setMax((int) total);
+//                        holder.progressBar.setProgress((int) current);
+//                        holder.down_btn.setText(getAppSize(current) + "/" + getAppSize(total));
+//                        infos.get(position).setStatus(DownloadManager.STATUS_RUNNING);
+//                        infos.get(position).setCurrent(current);
+//                        infos.get(position).setTotal(total);
+
+                    }
+                });
+            }
+        });
     }
+
+
+    public class ViewHolder {
+        public TextView name_tv;
+        public TextView size_tv;
+        public TextView status_tv;
+        public Button down_btn;
+        public ProgressBar progressBar;
+    }
+
+
 }

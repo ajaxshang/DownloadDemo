@@ -6,19 +6,48 @@ package com.ajaxshang.demo.entity;
  */
 public class DownloadInfo {
 
+
     // 必需项
     private String downloadPath;
     // 展示名字
     private String name;
     private String savePath;
+    //当前下载数据
+    private long current = 0;
+    //总数据
+    private long total = 0;
     private boolean isWifiMode = false;
     private boolean isMobileMode = false;
-
     private boolean isNotificationShow = false;
     private String title;
     private String description;
+    private int status = 0;
+    private long id;
 
-    private int status;
+
+    public long getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(long current) {
+        this.current = current;
+    }
+
+    public long getTotal() {
+        return total;
+    }
+
+    public void setTotal(long total) {
+        this.total = total;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public int getStatus() {
         return status;
@@ -91,4 +120,6 @@ public class DownloadInfo {
     public void setIsNotificationShow(boolean isNotificationShow) {
         this.isNotificationShow = isNotificationShow;
     }
+
+
 }

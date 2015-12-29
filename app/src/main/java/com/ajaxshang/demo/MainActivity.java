@@ -15,12 +15,7 @@ public class MainActivity extends Activity {
 
     public static final String DOWNLOAD_FOLDER_NAME = "AjaxShang/11";
     String TAG = "DownLoad";
-    // String path =
-    // "https://sm.wdjcdn.com/release/files/jupiter/5.9.1.8951/wandoujia-wandoujia_web.apk";
-    // String path =
-    // "http://106.2.192.23:9999/down7.pc6.com/qd3/NTCCBRReader.zip";
     String path = "http://123.57.218.63:9008/download/PIE/AppAndroid/PiePlus.apk";
-    // String name = "wandoujia-wandoujia_web.apk";
     String name = "PiePlus.apk";
     Button start_btn;
     Button cancel_btn;
@@ -73,7 +68,7 @@ public class MainActivity extends Activity {
                     }
 
                     @Override
-                    public void onProgress(long current, long total, long status) {
+                    public void onProgress(long id, long current, long total, long status) {
                         // TODO Auto-generated method stub
                         Log.d(TAG, "onProgress:" + current + "/" + total + " status:" + status);
                     }

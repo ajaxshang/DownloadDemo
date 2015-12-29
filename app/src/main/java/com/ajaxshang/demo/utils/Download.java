@@ -47,19 +47,12 @@ public class Download {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-//            DownloadCallBack callBack = (DownloadCallBack) msg.obj;
-//            if (msg.what < msg.arg1) {
-//                callBack.onProgress(msg.what, msg.arg1, msg.arg2);
-//            }
-//            if (msg.what == msg.arg1) {
-//                callBack.onSuccess();
-//            }
             switch (msg.what) {
                 case 0:
                     MessageInfo info = (MessageInfo) msg.obj;
                     DownloadCallBack callBack = info.getCallBack();
                     if (info.getCurrent() < info.getTotal()) {
-                        callBack.onProgress(info.getCurrent(), info.getTotal(), info.getStatus());
+                        callBack.onProgress(info.getDownloadid(), info.getCurrent(), info.getTotal(), info.getStatus());
                     }
                     if (info.getCurrent() == info.getTotal()) {
 //                        callBack.onProgress(info.getCurrent(),info.getTotal(),info.getStatus());
@@ -146,7 +139,7 @@ public class Download {
     }
 
     // 获取下载状态
-    private static int[] getBytesAndStatus(long downloadId) {
+    public static int[] getBytesAndStatus(long downloadId) {
         int[] bytesAndStatus = new int[]{-1, -1, 0};
         DownloadManager.Query query = new DownloadManager.Query().setFilterById(downloadId);
         Cursor c = null;
@@ -301,7 +294,13 @@ public class Download {
             if (!folder.exists() || !folder.isDirectory()) {
                 folder.mkdirs();
             }
-            down.setDestinationInExternalPublicDir(info.getSavePath(), DOWNLOAD_FILE_NAME);
+            try {
+                //FIXME 添加savepath存在且为文件的判定
+                down.setDestinationInExternalPublicDir(info.getSavePath(), DOWNLOAD_FILE_NAME);
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            }
+
         } else {
             down.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, DOWNLOAD_FILE_NAME);
         }
@@ -393,9 +392,16 @@ public class Download {
 
         void onFailure(int errorCode);
 
-        void onProgress(long current, long total, long status);
+        void onProgress(long id, long current, long total, long status);
 
     }
+
+    /**
+     * 尝试使用监听？
+     */
+//    public interface DownloadListener{
+//        public void onStart(View view);
+//    }
 
     class DownloadObRunnable implements Runnable {
         long id;

@@ -9,9 +9,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ajaxshang.demo.R;
+import com.ajaxshang.demo.entity.DownloadInfo;
 import com.ajaxshang.demo.entity.MessageInfo;
 import com.ajaxshang.demo.utils.Download;
-import com.ajaxshang.demo.entity.DownloadInfo;
 
 import java.text.DecimalFormat;
 
@@ -73,6 +73,7 @@ public class DownloadAdapter extends AbstractBaseAdapter<DownloadInfo> {
         final Download download = new Download(context);
         name_tv.setText(mListData.get(position).getName());
         down.setText("下载");
+        progressBar.setMax(0);
         down.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -90,7 +91,7 @@ public class DownloadAdapter extends AbstractBaseAdapter<DownloadInfo> {
                     }
 
                     @Override
-                    public void onProgress(long current, long total, long status) {
+                    public void onProgress(long id, long current, long total, long status) {
                         Log.d("Adapter", "onProgress " + position + ":" + getAppSize(current) + "/" + getAppSize(total));
                         status_tv.setText("正在下载");
                         down.setText(getAppSize(current) + "/" + getAppSize(total));
